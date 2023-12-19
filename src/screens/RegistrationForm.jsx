@@ -69,7 +69,7 @@ const RegistrationForm = (props) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://cityweather.cyclic.app/register",
+        "https://weathervuebackend.onrender.com/register",
         userData
       );
       if (response.status === 200) {
