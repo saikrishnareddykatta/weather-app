@@ -13,8 +13,8 @@ import {
 const Weather = () => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
-  const [temperature, setTemperature] = useState("");
-  const [windSpeed, setWindSpeed] = useState("");
+  // const [temperature, setTemperature] = useState("");
+  // const [windSpeed, setWindSpeed] = useState("");
   const [unit, setUnit] = useState("Celsius");
 
   const handleCityChange = (e) => {
@@ -81,10 +81,10 @@ const Weather = () => {
       <Card elevation={3} style={{ borderRadius: "15px", flex: "1" }}>
         <CardContent>
           <Typography variant="h6">Weather Information</Typography>
-          <Typography variant="body1">
+          {/* <Typography variant="body1">
             Temperature: {temperature} {unit}
-          </Typography>
-          <Typography variant="body1">Wind Speed: {windSpeed} m/s</Typography>
+          </Typography> */}
+          {/* <Typography variant="body1">Wind Speed: {windSpeed} m/s</Typography> */}
           <ButtonGroup style={{ marginTop: "10px" }}>
             <Button
               variant={unit === "Celsius" ? "contained" : "outlined"}

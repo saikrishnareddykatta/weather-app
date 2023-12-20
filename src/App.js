@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { CircularProgress } from "@mui/material";
-import LoginForm from "./screens/LoginForm";
-import RegistrationForm from "./screens/RegistrationForm";
+import Weather from "./screens/Weather";
+import SignInForm from "./screens/SignInForm";
 
 function App() {
-  const [registration, setRegistration] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isUserValid, setIsUserValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState();
   return (
     <div>
       <div
@@ -19,20 +18,14 @@ function App() {
       >
         {isLoading && <CircularProgress size={48} color="secondary" />}
       </div>
-      {!isLoading && !registration && (
-        <RegistrationForm
-          setRegistration={setRegistration}
+      {!isLoading && !isUserValid && (
+        <SignInForm
+          setIsUserValid={setIsUserValid}
           setIsLoading={setIsLoading}
           setUserData={setUserData}
         />
       )}
-      {!isLoading && isLogin && (
-        <LoginForm
-          setIsLoading={setIsLoading}
-          setIsLogin={setIsLogin}
-          userData={userData}
-        />
-      )}
+      {!isLoading && isUserValid && <Weather userData={userData} />}
     </div>
   );
 }

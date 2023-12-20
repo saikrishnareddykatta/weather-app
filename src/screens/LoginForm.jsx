@@ -5,17 +5,43 @@ import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import axios from "axios";
 
 const LoginForm = (props) => {
-  // const { setIsLoading, setIsLogin, userData } = props;
+  const { setIsLoading, setIsUserValid, setUserData } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const authenticateUser = async () => {
+    setIsLoading(true);
+    const payload = {
+      username,
+      password,
+    };
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
+        payload
+      );
+      if (response.status === 200) {
+        setIsUserValid(true);
+        setUserData(response.data.username);
+        setPassword("");
+        setUsername("");
+      } else {
+        setIsUserValid(false);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsUserValid(false);
+      setIsLoading(false);
+    }
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Username:", username);
-    console.log("Password:", password);
     // Add your authentication logic here
+    authenticateUser();
   };
 
   return (
@@ -53,24 +79,22 @@ const LoginForm = (props) => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 3 }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            Log In
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 3 }}
-          >
-            Register
-          </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ marginTop: "20px" }}
+            >
+              Log In
+            </Button>
+          </div>
         </form>
       </Paper>
     </Container>
