@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Container, Paper, Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import QRImage from "../utils/QRImage";
@@ -12,6 +12,27 @@ const AuthCode = (props) => {
   const [helperMessage, setHelperMessage] = useState("");
   const { userData, setIsTwoFactorValid, setIsLoading, setUserData } = props;
   const { functionType, username, twoFactorEnabled } = userData;
+
+  const verifyAuthCode = useCallback(() => {
+    if (functionType === "login") {
+      if (twoFactorEnabled) {
+        setDisplayText("Please Enter the 2FA Code");
+        setShowQRCode(false);
+      } else {
+        const { qrImage } = userData;
+        setDisplayText(
+          "Looks like you haven't enable 2FA. Please enable 2FA with any Authenticator App"
+        );
+        setShowQRCode(true);
+        setQRImageURL(qrImage);
+      }
+    } else {
+      const { qrImage } = userData;
+      setQRImageURL(qrImage);
+      setDisplayText("Please Register 2FA with any Authenticator App");
+      setShowQRCode(true);
+    }
+  }, [functionType, twoFactorEnabled, userData]);
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -87,28 +108,8 @@ const AuthCode = (props) => {
   };
 
   useEffect(() => {
-    const verifyAuthCode = () => {
-      if (functionType === "login") {
-        if (twoFactorEnabled) {
-          setDisplayText("Please Enter the 2FA Code");
-          setShowQRCode(false);
-        } else {
-          const { qrImage } = userData;
-          setDisplayText(
-            "Looks like you haven't enable 2FA. Please enable 2FA with any Authenticator App"
-          );
-          setShowQRCode(true);
-          setQRImageURL(qrImage);
-        }
-      } else {
-        const { qrImage } = userData;
-        setQRImageURL(qrImage);
-        setDisplayText("Please Register 2FA with any Authenticator App");
-        setShowQRCode(true);
-      }
-    };
     verifyAuthCode();
-  }, []);
+  }, [verifyAuthCode]);
 
   return (
     <Container component="main" maxWidth="xs">
