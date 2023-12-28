@@ -25,7 +25,12 @@ const LoginForm = (props) => {
       );
       if (response.status === 200) {
         setIsUserValid(true);
-        setUserData(response.data.username);
+        setUserData({
+          functionType: "login",
+          username: response.data.user.username,
+          twoFactorEnabled: response.data.user.twoFactorEnabled,
+          qrImage: response.data.user.qrImage,
+        });
         setPassword("");
         setUsername("");
       } else {

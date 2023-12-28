@@ -10,7 +10,7 @@ import {
   ButtonGroup,
 } from "@mui/material";
 
-const Weather = () => {
+const Weather = ({ username }) => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   // const [temperature, setTemperature] = useState("");
@@ -50,6 +50,7 @@ const Weather = () => {
       maxWidth="md"
       style={{ marginTop: "50px", display: "flex", gap: "20px" }}
     >
+      <h1>Hello {username}</h1>
       <Card elevation={3} style={{ borderRadius: "15px", flex: "1" }}>
         <CardContent>
           <Typography variant="h6">Enter Location: </Typography>

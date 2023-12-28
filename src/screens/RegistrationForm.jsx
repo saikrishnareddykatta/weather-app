@@ -74,7 +74,11 @@ const RegistrationForm = (props) => {
       );
       if (response.status === 200) {
         setIsUserValid(true);
-        setUserData(response.data.username);
+        setUserData({
+          functionType: "register",
+          username: response.data.user.username,
+          qrImage: response.data.user.qrImage,
+        });
         setFormData({
           id: "",
           name: "",
