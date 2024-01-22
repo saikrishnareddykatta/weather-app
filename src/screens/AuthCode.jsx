@@ -10,7 +10,14 @@ const AuthCode = (props) => {
   const [qrImageURL, setQRImageURL] = useState("");
   const [error, setError] = useState(false);
   const [helperMessage, setHelperMessage] = useState("");
-  const { userData, setIsTwoFactorValid, setIsLoading, setUserData } = props;
+  const {
+    userData,
+    userGeoLocation,
+    setIsTwoFactorValid,
+    setIsLoading,
+    setUserData,
+    setUserLocation,
+  } = props;
   const { functionType, username, twoFactorEnabled } = userData;
 
   const verifyAuthCode = useCallback(() => {
@@ -34,19 +41,40 @@ const AuthCode = (props) => {
     }
   }, [functionType, twoFactorEnabled, userData]);
 
+  //Call An API to get user's City, State and Country
+  const getCityDetails = async () => {
+    // setIsLoading(true);
+    console.log("***userGeoLocation", userGeoLocation);
+    if (Object.keys(userGeoLocation).length > 0) {
+      const payload = {
+        latitude: userGeoLocation.latitude,
+        longitude: userGeoLocation.longitude,
+      };
+      try {
+        const response = await axios.post("/weather/cityDetails", payload);
+        if (response.status === 200) {
+          setUserLocation(response.data);
+        } else {
+          setUserLocation({});
+        }
+      } catch (error) {
+        setUserLocation({});
+      }
+    }
+    setIsLoading(false);
+  };
+
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
+      await getCityDetails();
       if (functionType === "login") {
         if (twoFactorEnabled) {
           const payload = {
             username,
             code: userCode,
           };
-          const response = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/verifytwoauth`,
-            payload
-          );
+          const response = await axios.post("/auth/verifytwoauth", payload);
           if (response.status === 200) {
             setIsTwoFactorValid(true);
             setError(false);
@@ -62,10 +90,7 @@ const AuthCode = (props) => {
             username,
             code: userCode,
           };
-          const response = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/setuptwofactor`,
-            payload
-          );
+          const response = await axios.post(`/auth/setuptwofactor`, payload);
           if (response.status === 200) {
             setIsTwoFactorValid(true);
             setError(false);
@@ -82,10 +107,7 @@ const AuthCode = (props) => {
           username,
           code: userCode,
         };
-        const response = await axios.post(
-          `${process.env.REACT_APP_BACKEND_URL}/setuptwofactor`,
-          payload
-        );
+        const response = await axios.post(`/auth/setuptwofactor`, payload);
         if (response.status === 200) {
           setIsTwoFactorValid(true);
           setError(false);
@@ -106,6 +128,12 @@ const AuthCode = (props) => {
       setIsLoading(false);
     }
   };
+
+  // const fetchData = () => {
+  //   console.log("***gettingRepeated");
+  //   getCityDetails();
+  //   verifyAuthCode();
+  // };
 
   useEffect(() => {
     verifyAuthCode();

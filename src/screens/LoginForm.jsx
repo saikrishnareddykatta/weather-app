@@ -19,10 +19,7 @@ const LoginForm = (props) => {
       password,
     };
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/login`,
-        payload
-      );
+      const response = await axios.post("/auth/userlogin", payload);
       if (response.status === 200) {
         setIsUserValid(true);
         setUserData({
