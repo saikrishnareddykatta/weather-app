@@ -68,10 +68,7 @@ const RegistrationForm = (props) => {
   const registerUser = async (formData) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/register`,
-        formData
-      );
+      const response = await axios.post(`/api/v1/auth/registeruser/`, formData);
       if (response.status === 200) {
         setIsUserValid(true);
         setUserData({
