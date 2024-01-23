@@ -3,6 +3,7 @@
 /api/v1/auth/userlogin/*  https://weathervuebackend.onrender.com/api/v1/auth/userlogin/:splat  200
 /api/v1/auth/verifytwoauth/*  https://weathervuebackend.onrender.com/api/v1/auth/verifytwoauth/:splat  200
 /api/v1/auth/registeruser/*  https://weathervuebackend.onrender.com/api/v1/auth/registeruser/:splat  200
+/api/v1/auth/setuptwofactor/*  https://weathervuebackend.onrender.com/api/v1/auth/setuptwofactor/:splat  200
 /api/v1/weather/currentWeather/*  https://weathervuebackend.onrender.com/api/v1/weather/currentWeather/:splat  200
 /api/v1/weather/airQuality/*  https://weathervuebackend.onrender.com/api/v1/weather/airQuality/:splat  200
 /api/v1/weather/marineWeather/*  https://weathervuebackend.onrender.com/api/v1/weather/marineWeather/:splat  200
