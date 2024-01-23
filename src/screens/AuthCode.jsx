@@ -51,7 +51,10 @@ const AuthCode = (props) => {
         longitude: userGeoLocation.longitude,
       };
       try {
-        const response = await axios.post("/weather/cityDetails", payload);
+        const response = await axios.post(
+          "/api/v1/weather/cityDetails",
+          payload
+        );
         if (response.status === 200) {
           setUserLocation(response.data);
         } else {
@@ -74,7 +77,10 @@ const AuthCode = (props) => {
             username,
             code: userCode,
           };
-          const response = await axios.post("/auth/verifytwoauth", payload);
+          const response = await axios.post(
+            "/api/v1/auth/verifytwoauth",
+            payload
+          );
           if (response.status === 200) {
             setIsTwoFactorValid(true);
             setError(false);
@@ -90,7 +96,10 @@ const AuthCode = (props) => {
             username,
             code: userCode,
           };
-          const response = await axios.post(`/auth/setuptwofactor`, payload);
+          const response = await axios.post(
+            `/api/v1/auth/setuptwofactor`,
+            payload
+          );
           if (response.status === 200) {
             setIsTwoFactorValid(true);
             setError(false);
@@ -107,7 +116,10 @@ const AuthCode = (props) => {
           username,
           code: userCode,
         };
-        const response = await axios.post(`/auth/setuptwofactor`, payload);
+        const response = await axios.post(
+          `/api/v1/auth/setuptwofactor`,
+          payload
+        );
         if (response.status === 200) {
           setIsTwoFactorValid(true);
           setError(false);

@@ -27,20 +27,23 @@ const Weather = ({ username, userLocation }) => {
           countryName,
         };
         const currentResponse = await axios.post(
-          `/weather/currentWeather`,
+          `/api/v1/weather/currentWeather`,
           payload
         );
         const airQualityResponse = await axios.post(
-          `/weather/airQuality`,
+          `/api/v1/weather/airQuality`,
           payload
         );
-        const marineWeatherResponse = await fetch("/weather/marineWeather", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
+        const marineWeatherResponse = await fetch(
+          "/api/v1/weather/marineWeather",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
         const marineData = await marineWeatherResponse.json();
         const currentStatus = currentResponse.status;
         const airQualityStatus = airQualityResponse.status;

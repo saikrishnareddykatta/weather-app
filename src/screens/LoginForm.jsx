@@ -19,7 +19,7 @@ const LoginForm = (props) => {
       password,
     };
     try {
-      const response = await axios.post("/auth/userlogin", payload);
+      const response = await axios.post("/api/v1/auth/userlogin", payload);
       if (response.status === 200) {
         setIsUserValid(true);
         setUserData({
